@@ -129,4 +129,5 @@ The system will operate in a real-time environment, generating simulated sensor 
   - [ ] Ensure the system remains responsive as more threads are added.
   - [ ] Simulate the data for for more locations.
   - [ ] Simulate the data for different seasons/dates.
+  - [ ] Add a database to the program.
 
