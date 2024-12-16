@@ -1,5 +1,6 @@
 #include "dataCollector.hpp"
 
+
 DataCollector::DataCollector()
 {
 
@@ -40,4 +41,23 @@ const std::queue<SensorData> *DataCollector::getSensorData(unsigned int sensorId
 const std::map<int, std::queue<SensorData>> DataCollector::getSensorData() const noexcept
 {
     return this->m_sensorData;
+}
+
+/**
+ * @returns
+ */
+std::shared_ptr<SensorData> DataCollector::queryData(int sensorId)
+{
+    if (!dataReady)
+        return nullptr;
+
+    if (!this->m_sensorData.contains(sensorId) || this->m_sensorData.at(sensorId).size() == 0)
+        return nullptr;
+
+    std::shared_ptr<SensorData> ptr;
+    SensorData data = this->m_sensorData[sensorId].front();
+    ptr = std::make_shared<SensorData>(data);
+
+    this->m_sensorData[sensorId].pop();
+    return ptr;
 }

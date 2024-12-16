@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include <queue>
+#include <memory>
 
 #include "sensorData.hpp"
 
@@ -21,6 +22,7 @@ public:
     const std::queue<SensorData> *getSensorData(unsigned int sensorId) const noexcept;
     const std::map<int, std::queue<SensorData>> getSensorData() const noexcept;
     
+    std::shared_ptr<SensorData> queryData(int sensorId);
 private:
     std::map<int, std::queue<SensorData>> m_sensorData {};
     std::mutex mtx;
