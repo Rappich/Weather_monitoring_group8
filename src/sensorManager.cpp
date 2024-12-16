@@ -2,13 +2,14 @@
 
 SensorManager::SensorManager() {}
 
-void SensorManager::generate()
+// Generates a specified number of sensors
+void SensorManager::generate(size_t numSensors)
 {
-    for (size_t i = 0; i < 3; i++)
+    for (size_t i = 0; i < numSensors; ++i)
     {
         sensors[i] = Sensor(i);
     }
-    std::cout << "Sensors initialized. \n";
+    std::cout << numSensors << " sensors initialized.\n";
 }
 
 Sensor &SensorManager::getSensor(int id)
