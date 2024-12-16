@@ -38,7 +38,7 @@ const std::queue<SensorData> *DataCollector::getSensorData(unsigned int sensorId
 /**
  * @returns a map with all sensors data that is currently stored in the class.
  */
-const std::map<int, std::queue<SensorData>> DataCollector::getSensorData() const noexcept
+const std::map<unsigned int, std::queue<SensorData>> DataCollector::getSensorData() const noexcept
 {
     return this->m_sensorData;
 }
@@ -47,7 +47,7 @@ const std::map<int, std::queue<SensorData>> DataCollector::getSensorData() const
  * Method removes the returned sensor data from queue when called.   
  * @returns pointer to sensor data or nullptr if sensor does not exist
  */
-std::shared_ptr<SensorData> DataCollector::queryData(int sensorId)
+std::shared_ptr<SensorData> DataCollector::queryData(unsigned int sensorId)
 {
     if (!dataReady)
         return nullptr;
