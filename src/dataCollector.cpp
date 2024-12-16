@@ -44,7 +44,8 @@ const std::map<int, std::queue<SensorData>> DataCollector::getSensorData() const
 }
 
 /**
- * @returns
+ * Method removes the returned sensor data from queue when called.   
+ * @returns pointer to sensor data or nullptr if sensor does not exist
  */
 std::shared_ptr<SensorData> DataCollector::queryData(int sensorId)
 {
