@@ -3,6 +3,7 @@
 
 #include "sensor.hpp"
 #include <map>
+#include <iostream>
 
 class SensorManager
 {
