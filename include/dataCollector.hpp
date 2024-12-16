@@ -6,8 +6,9 @@
 #include <map>
 #include <vector>
 #include <queue>
+#include <memory>
 
-typedef struct {} SensorData; // Forward Declare
+#include "sensorData.hpp"
 
 class DataCollector
 {
@@ -17,10 +18,11 @@ public:
     void resetFlag();
     void setDataReady(bool ready);
 
-    void addData(int sensorId, SensorData data);
-    const std::queue<SensorData> *getSensorData(int sensorId) const noexcept;
+    void addData(unsigned int sensorId, SensorData data);
+    const std::queue<SensorData> *getSensorData(unsigned int sensorId) const noexcept;
     const std::map<int, std::queue<SensorData>> getSensorData() const noexcept;
     
+    std::shared_ptr<SensorData> queryData(int sensorId);
 private:
     std::map<int, std::queue<SensorData>> m_sensorData {};
     std::mutex mtx;
