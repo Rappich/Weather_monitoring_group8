@@ -11,7 +11,7 @@ int Sensor::getID() const
 {
     return id;
 }
-
+//might have to change this function since it now creates a random number between -40 and 40. This works for temperature but not the other data.
 double Sensor::getData()
 {
     std::uniform_real_distribution<double> distribution(-40.0, 40.0);
