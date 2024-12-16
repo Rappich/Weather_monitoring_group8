@@ -2,13 +2,13 @@
 #define DATASTATISTICS.HPP
 #include <queue>
 #include "sensorData.hpp"
-class dataStatistics
+class DataStatistics
 {
 private:
 double avg, min, max;
 
 public:
-dataStatistics(const double avg, double min, double max);
+DataStatistics();
 
 void calculateAll(std::queue<SensorData>& data); 
 void calculateMin(std::queue<SensorData>& data); 
