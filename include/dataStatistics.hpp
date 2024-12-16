@@ -20,9 +20,9 @@ public:
 
     void calculateAll(const std::queue<SensorData> &data);
 
-    const MeasurementData& getWindspeed() const noexcept;
-    const MeasurementData& getTemperature() const noexcept;
-    const MeasurementData& getHumidity() const noexcept;
+    const MeasurementData &getWindspeed() const noexcept;
+    const MeasurementData &getTemperature() const noexcept;
+    const MeasurementData &getHumidity() const noexcept;
 };
 
 #endif
