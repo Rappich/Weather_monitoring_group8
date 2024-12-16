@@ -9,19 +9,19 @@ class SensorManager
 {
 private:
     // map of sensor IDs to Sensor objects
-    std::map<int, Sensor> sensors;
+    std::map<unsigned int, Sensor> sensors;
 
 public:
     SensorManager();
 
-    //generates and initializes sensors
-    void generate(size_t numSensors);
+    // generates and initializes sensors
+    void generate(unsigned int numSensors);
 
-    //retrieves a sensor by ID from sensor class
-    Sensor& getSensor (int id);
+    // retrieves a sensor by ID from sensor class
+    Sensor &getSensor(int id);
 
-    //add a sensor to the hashmap
-    void setSensor(int, Sensor&);
+    // add a sensor to the hashmap
+    void setSensor(unsigned int, Sensor &);
 };
 
 #endif
