@@ -7,7 +7,7 @@
 #include <vector>
 #include <queue>
 
-typedef struct {} SensorData; // Forward Declare
+#include "sensorData.hpp"
 
 class DataCollector
 {
