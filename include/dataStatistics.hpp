@@ -1,5 +1,5 @@
-#ifndef DATASTATISTICS.HPP
-#define DATASTATISTICS.HPP
+#ifndef DATASTATISTICS_HPP
+#define DATASTATISTICS_HPP
 #include <queue>
 #include "sensorData.hpp"
 class DataStatistics
