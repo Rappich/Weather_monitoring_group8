@@ -18,7 +18,7 @@ void DataCollector::setDataReady(bool ready)
 }
 
 /** Inserts sensor data into a sensor using the sensors id. */
-void DataCollector::addData(int sensorId, SensorData data)
+void DataCollector::addData(unsigned int sensorId, SensorData data)
 {
     this->m_sensorData[sensorId].push(data);
 }
@@ -26,7 +26,7 @@ void DataCollector::addData(int sensorId, SensorData data)
 /**
  * @returns a pointer to data from a specified sensor or `nullptr` if no data exists. 
  */
-const std::queue<SensorData> *DataCollector::getSensorData(int sensorId) const noexcept
+const std::queue<SensorData> *DataCollector::getSensorData(unsigned int sensorId) const noexcept
 {
     if (this->m_sensorData.contains(sensorId))
         return &this->m_sensorData.at(sensorId);
