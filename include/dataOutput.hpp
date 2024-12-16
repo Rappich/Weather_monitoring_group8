@@ -4,19 +4,16 @@
 #include "DataStatistics.hpp"
 #include "DataCollector.hpp"
 
-class DataOutput {
+class DataOutput
+{
 
 private:
     DataStatistics dataStatistics;
     DataCollector dataCollector;
 
 public:
-
     void displayStatistics();
-
     void displayAvailableData();
-
-
 };
 
 #endif
