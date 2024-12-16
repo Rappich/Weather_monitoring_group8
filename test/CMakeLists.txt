@@ -1,10 +1,10 @@
 cmake_minimum_required( VERSION 3.30 ) # Minimum required version of cmake for the project to build
 
 project (
-	weather_monitoring
+	weather_monitoring_test
 	VERSION 0.0.1
 	LANGUAGES CXX
-	) # Create project information
+) # Create project information
 
 set(CMAKE_CXX_STANDARD 23) # Set C++ standard to 23
 set(CMAKE_CXX_STANDARD_REQUIRED 23)
