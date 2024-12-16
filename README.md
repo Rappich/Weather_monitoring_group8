@@ -1,4 +1,4 @@
-# Weather monitoring project - SRS
+# Software Requirements Specification
 
 ## **1. Introduction**
 
@@ -24,41 +24,98 @@ The system operates in a real-time environment, generating sensor data, calculat
 
 ---
 
-## **3. Specific Requirements**
+## **3. Developers To-Do List**
 
-### **3.1 Functional Requirements**
-#### **3.1.1 Sensor Simulation**
-- Simulate three sensors using threads.
-- Generate random data every 500 ms within realistic ranges:
-  - Temperature: -30°C to 40°C.
-  - Humidity: 0% to 100%.
-  - Wind Speed: 0 m/s to 30 m/s.
-
-#### **3.1.2 Data Collection**
-- Store the latest sensor readings in shared memory protected by a mutex.
-- Use flags to indicate new data availability.
-
-#### **3.1.3 Data Processing**
-- Calculate mean, min, and max values for each sensor every 5 seconds based on the last 10 readings.
-
-#### **3.1.4 Data Display**
-- Display current sensor data every 2 seconds.
-- Display calculated statistics every 10 seconds in the console.
-
-### **3.2 Performance Requirements**
-- Sensor threads must generate data precisely every 500 ms.
-- Data processing and display tasks must adhere to their specified intervals.
+### **3.1 Sensor Simulation**
+1. **Thread Creation**
+   - [ ] Create three threads to simulate the sensors:
+     - Temperature
+     - Humidity
+     - Wind Speed
+2. **Data Generation**
+   - [ ] Implement random data generation for each sensor using the following ranges:
+     - Temperature: -30°C to 40°C
+     - Humidity: 0% to 100%
+     - Wind Speed: 0 m/s to 30 m/s
+   - [ ] Ensure data is generated every 500 milliseconds.
 
 ---
 
-## **4. Non-Functional Requirements**
-- **Reliability**: Ensure all tasks meet real-time constraints without missing deadlines.
-- **Usability**: Console output must be clear and easy to interpret.
-- **Maintainability**: Code should be modular, well-documented, and allow for the addition of new sensors.
+### **3.2 Data Collection**
+1. **Shared Memory**
+   - [ ] Create a shared memory structure to store the latest readings from all sensors.
+   - [ ] Protect shared memory access using a mutex.
+2. **Signaling**
+   - [ ] Implement flags to signal when new data is available for processing.
 
 ---
 
-## **5. Example Output**
+### **3.3 Data Processing**
+1. **Statistics Calculation**
+   - [ ] Create a separate thread for calculating statistics (mean, min, max) for each sensor.
+   - [ ] Retrieve the last 10 readings for each sensor.
+   - [ ] Calculate the following statistics every 5 seconds:
+     - Mean
+     - Minimum
+     - Maximum
+
+---
+
+### **3.4 Data Display**
+1. **Current Data Display**
+   - [ ] Create a periodic task to display the latest sensor data in the console every 2 seconds.
+2. **Statistics Display**
+   - [ ] Create another periodic task to display calculated statistics every 10 seconds.
+3. **Console Formatting**
+   - [ ] Ensure console output is clear and easy to read.
+
+---
+
+## **4. Functional Requirements**
+
+### **4.1 Sensor Simulation**
+- Each sensor must:
+  - Use a dedicated thread.
+  - Generate random data every 500 ms.
+  - Operate within the specified ranges:
+    - Temperature: -30°C to 40°C
+    - Humidity: 0% to 100%
+    - Wind Speed: 0 m/s to 30 m/s
+
+### **4.2 Data Collection**
+- Use shared memory to store the most recent data from all sensors.
+- Protect shared memory access using a mutex.
+- Signal availability of new data using flags.
+
+### **4.3 Data Processing**
+- Calculate statistics (mean, min, max) for each sensor every 5 seconds.
+- Use the last 10 readings for calculations.
+
+### **4.4 Data Display**
+- Display the latest sensor data every 2 seconds.
+- Display calculated statistics every 10 seconds.
+
+---
+
+## **5. Performance Requirements**
+- Ensure sensor threads generate data precisely every 500 milliseconds.
+- Data processing and display tasks must execute within their specified intervals without delays or race conditions.
+
+---
+
+## **6. Non-Functional Requirements**
+1. **Reliability**
+   - Ensure tasks meet real-time constraints and deadlines.
+2. **Usability**
+   - Console output should be clear and easy to interpret.
+3. **Maintainability**
+   - Code should be modular and well-documented.
+4. **Scalability**
+   - Design the system to allow the addition of more sensors with minimal changes.
+
+---
+
+## **7. Example Output**
 ```plaintext
 Latest Sensor Data:
 Temperature: 15°C
