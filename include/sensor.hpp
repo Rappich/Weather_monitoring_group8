@@ -28,8 +28,7 @@ public:
     int getID() const;
 
     // generates and retursns sensor data
-    virtual double getData();
-
+    double getData(double min, double max);
     // simulates reading data from the sensor
     void readData();
 };

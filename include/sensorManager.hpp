@@ -15,7 +15,7 @@ public:
     SensorManager();
 
     //generates and initializes sensors
-    void generate();
+    void generate(size_t numSensors);
 
     //retrieves a sensor by ID from sensor class
     Sensor& getSensor (int id);
