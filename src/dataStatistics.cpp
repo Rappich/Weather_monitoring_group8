@@ -5,7 +5,8 @@
 
 DataStatistics::DataStatistics() {}
 
-void DataStatistics::calculateAll(const std::queue<SensorData> &data)
+// Beräkna alla statistikvärden
+void DataStatistics::calculateAll(std::queue<SensorData> &data)
 {
     if (data.empty())
     {
@@ -60,7 +61,7 @@ void DataStatistics::calculateAll(const std::queue<SensorData> &data)
 }
 const MeasurementData &DataStatistics::getWindspeed() const noexcept
 {
-    return windspeed;
+    return avg;
 }
 const MeasurementData &DataStatistics::getTemperature() const noexcept
 {
