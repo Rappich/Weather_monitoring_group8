@@ -13,6 +13,11 @@ TEST_CASE("Testing DataCollector class", "[DataCollector],[Class],[Data]") {
     CHECK_FALSE(dataCollector.getSensorData().at(1).empty());
     CHECK(dataCollector.getSensorData(2) == nullptr);
 
+    CHECK(dataCollector.queryData(1) == nullptr);
+
+    dataCollector.setDataReady(true);
+    CHECK(dataCollector.queryData(1) != nullptr);
+
     // Currently unfinished, will be tested later.
     // dataCollector.setDataReady(true);
     // CHECK_FALSE(dataCollector.getSensorData(1)->size());
