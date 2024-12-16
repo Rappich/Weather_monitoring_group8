@@ -15,7 +15,7 @@ private:
 
 public:
     // Konstruktor
-    DataStatistics() {}
+    DataStatistics();
 
     void calculateAll(const std::queue<SensorData> &data);
 
