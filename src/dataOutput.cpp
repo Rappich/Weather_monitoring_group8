@@ -1,13 +1,14 @@
 #include "../include/DataOutput.hpp"
+#include "../include/DataStatistics.hpp"
 #include <iostream>
 
 
 void DataOutput::displayStatistics() {
     // Print the statistics using DataStatistics
     std::cout << "Displaying statistics..." << std::endl;
-    std::cout << "Average temperature: " << dataStatistics.getAverageTemperature() << std::endl;
-    std::cout << "Average humidity: " << dataStatistics.getAverageHumidity() << std::endl;
-    std::cout << "Avrige windspeed" << dataStatistics.getAverageWindspeed() << std::endl;
+    std::cout << "Average temperature: " << dataStatistics.getAvg() << std::endl;
+    std::cout << "Average humidity: " << dataStatistics.getMin() << std::endl;
+    std::cout << "Avrige windspeed" << dataStatistics.getMax() << std::endl;
 }
 
 void DataOutput::displayAvailableData() {
