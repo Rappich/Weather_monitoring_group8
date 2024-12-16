@@ -20,11 +20,11 @@ public:
 
     void addData(unsigned int sensorId, SensorData data);
     const std::queue<SensorData> *getSensorData(unsigned int sensorId) const noexcept;
-    const std::map<int, std::queue<SensorData>> getSensorData() const noexcept;
+    const std::map<unsigned int, std::queue<SensorData>> getSensorData() const noexcept;
     
-    std::shared_ptr<SensorData> queryData(int sensorId);
+    std::shared_ptr<SensorData> queryData(unsigned int sensorId);
 private:
-    std::map<int, std::queue<SensorData>> m_sensorData {};
+    std::map<unsigned int, std::queue<SensorData>> m_sensorData {};
     std::mutex mtx;
 
     bool dataReady;
