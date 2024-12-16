@@ -6,6 +6,8 @@ project (
 	LANGUAGES CXX
 ) # Create project information
 
+enable_testing()
+
 set(CMAKE_CXX_STANDARD 23) # Set C++ standard to 23
 set(CMAKE_CXX_STANDARD_REQUIRED 23)
 
