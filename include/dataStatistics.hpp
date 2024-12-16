@@ -5,7 +5,6 @@
 #include "sensorData.hpp"
 #include "dataCollector.hpp"
 #include "measurementData.hpp"
-#include <limits>
 
 class DataStatistics
 {
