@@ -1,29 +1,27 @@
 #ifndef DATASTATISTICS_HPP
 #define DATASTATISTICS_HPP
+
 #include <queue>
 #include "sensorData.hpp"
+#include "dataCollector.hpp"
+#include "measurementData.hpp"
+
 class DataStatistics
 {
 private:
-double avg, min, max;
+    MeasurementData windspeed;
+    MeasurementData temperature;
+    MeasurementData humidity;
 
 public:
-DataStatistics();
+    // Konstruktor
+    DataStatistics();
 
-void calculateAll(std::queue<SensorData>& data); 
-void calculateMin(std::queue<SensorData>& data); 
-void calculateAvg(std::queue<SensorData>& data); 
-void calculateMax(std::queue<SensorData>& data); 
+    void calculateAll(const std::queue<SensorData> &data);
 
-double getAvg() const; 
-double getMin() const; 
-double getMax() const;
-    
+    const MeasurementData &getWindspeed() const noexcept;
+    const MeasurementData &getTemperature() const noexcept;
+    const MeasurementData &getHumidity() const noexcept;
 };
-
-
-
-
-
 
 #endif

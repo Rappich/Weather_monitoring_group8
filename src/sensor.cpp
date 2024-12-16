@@ -24,4 +24,3 @@ void Sensor::readData()
     data.humidity = getData(0.0, 100.0);     // Humidity: 0% to 100%
     data.windspeed = getData(0.0, 30.0);     // Wind speed: 0 to 30 m/s
 }
-
