@@ -11,6 +11,7 @@ TEST_CASE("Testing DataCollector class", "[DataCollector],[Class],[Data]") {
     CHECK(dataCollector.getSensorData().at(1).size() == 2);
 
     CHECK_FALSE(dataCollector.getSensorData().at(1).empty());
+    CHECK(dataCollector.getSensorData(2) == nullptr);
 
     // Currently unfinished, will be tested later.
     // dataCollector.setDataReady(true);
