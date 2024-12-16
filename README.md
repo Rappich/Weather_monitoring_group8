@@ -1,4 +1,4 @@
-# Software Requirements Specification (SRS)
+# Software Requirements Specification
 
 ## **1. Introduction**
 
@@ -21,6 +21,8 @@ The system will operate in a real-time environment, generating simulated sensor 
 ### **2.2 Constraints**
 - Implemented in C++ with threads and mutexes.
 - Timing intervals for data generation, processing, and display must be strictly followed.
+- This will be a console application readable in the terminal window, therefor it will not have a GUI.
+- The temperate will be measured in Skelleftea, Helsingborg, Stockholm
 
 ---
 
@@ -30,7 +32,7 @@ The system will operate in a real-time environment, generating simulated sensor 
 - Each sensor must:
   - Generate random data every 500 ms.
   - Operate within these ranges:
-    - Temperature: -30°C to 40°C
+    - Temperature: -40°C to 40°C
     - Humidity: 0% to 100%
     - Wind Speed: 0 m/s to 30 m/s.
 
@@ -58,21 +60,15 @@ The system will operate in a real-time environment, generating simulated sensor 
 # Developers To-Do List
 
 ## **1. Sensor Simulation**
-### Task 1: Sensor Thread Implementation
+### Task 1: Sensor Thread Implementation & data range configuration
 - **Subtasks**:
+- [ ] Decide 
   - [ ] Write a thread for each sensor:
-    - [ ] Temperature
-    - [ ] Humidity
-    - [ ] Wind Speed
+    - [ ] Temperature: -30°C to 40°C.
+    - [ ] Humidity: 0% to 100%.
+    - [ ] Wind Speed: 0 m/s to 30 m/s.
   - [ ] Use random number generation for sensor readings.
   - [ ] Ensure each sensor generates data every 500 milliseconds.
-
-### Task 2: Data Range Configuration
-- **Subtasks**:
-  - [ ] Configure the following ranges:
-    - Temperature: -30°C to 40°C.
-    - Humidity: 0% to 100%.
-    - Wind Speed: 0 m/s to 30 m/s.
   - [ ] Test random number generation to ensure realistic outputs.
 
 ---
@@ -80,7 +76,7 @@ The system will operate in a real-time environment, generating simulated sensor 
 ## **2. Data Collection**
 ### Task 1: Shared Memory Setup
 - **Subtasks**:
-  - [ ] Define a shared memory structure to store sensor readings.
+  - [ ] Define a shared memory structure to store sensor readings for all the sensors.
   - [ ] Include fields for:
     - Latest temperature
     - Latest humidity
@@ -93,7 +89,7 @@ The system will operate in a real-time environment, generating simulated sensor 
 
 ### Task 3: Data Availability Signaling
 - **Subtasks**:
-  - [ ] Implement flags to indicate when new data is available.
+  - [ ] Implement flags to indicate when new data is available, eg. dataReady = false;.
   - [ ] Write logic to reset flags after data is processed.
 
 ---
@@ -125,9 +121,12 @@ The system will operate in a real-time environment, generating simulated sensor 
 - **Subtasks**:
   - [ ] Modularize code to allow easy addition of new sensors.
   - [ ] Write clear documentation for each module.
+  - [ ] Refactor the program to use link list or queues instead of bool flags.
 
 ### Task 2: System Scalability
 - **Subtasks**:
   - [ ] Design data structures to support more sensors.
   - [ ] Ensure the system remains responsive as more threads are added.
+  - [ ] Simulate the data for for more locations.
+  - [ ] Simulate the data for different seasons/dates.
 
