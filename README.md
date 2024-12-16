@@ -69,8 +69,3 @@ Statistics (last 10 readings):
 Temperature: Min - 10°C, Max - 20°C, Mean - 15°C
 Humidity: Min - 50%, Max - 70%, Mean - 60%
 Wind Speed: Min - 8 m/s, Max - 12 m/s, Mean - 10 m/s
-
-
-## Collaboration
-To join the development session, use the following link:  
-[Live Share Session](https://prod.liveshare.vsengsaas.visualstudio.com/join?6F09CB583395D62299B3AC1D6F05ADE05F8A)
