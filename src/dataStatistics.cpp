@@ -8,12 +8,23 @@ void DataStatistics::calculateAll(const std::queue<SensorData> &data)
 {
     if (data.empty())
     {
-        min = max = avg = 0;
         return;
     }
 
-    SensorData first = data.front();
-    min = max = first.temperature;
+    auto first = data.front();
+
+    temperature.avg = 0;
+    windspeed.avg = 0;
+    humidity.avg = 0;
+
+    temperature.max = first.temperature;
+    windspeed.max = first.windspeed;
+    humidity.max = first.humidity;
+
+    temperature.min = first.temperature;
+    windspeed.min = first.windspeed;
+    humidity.min = first.humidity;
+
     double sum = 0;
     int count = 0;
 
@@ -21,18 +32,30 @@ void DataStatistics::calculateAll(const std::queue<SensorData> &data)
 
     while (!tempQueue.empty())
     {
-        double value = tempQueue.front().temperature;
-        if (value < min)
-            min = value;
-        if (value > max)
-            max = value;
-        sum += value;
+        auto &data = tempQueue.front();
+
+        if (data.temperature < temperature.min)
+            temperature.min = data.temperature;
+        else if (data.temperature > temperature.max)
+            temperature.max = data.temperature;
+
+        if (data.humidity < humidity.min)
+            humidity.min = data.humidity;
+        else if (data.humidity > humidity.max)
+            humidity.max = data.humidity;
+
+        if (data.windspeed < windspeed.min)
+            windspeed.min = data.windspeed;
+        else if (data.windspeed > windspeed.max)
+            windspeed.max = data.windspeed;
 
         tempQueue.pop();
         ++count;
     }
 
-    avg = sum / count;
+    temperature.avg /= count;
+    windspeed.avg /= count;
+    humidity.avg /= count;
 }
 const MeasurementData &DataStatistics::getWindspeed() const noexcept
 {
