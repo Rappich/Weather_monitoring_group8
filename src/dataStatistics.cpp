@@ -61,5 +61,5 @@ double DataStatistics::getMin() const {
 }
 
 double DataStatistics::getMax() const {
-    return max;
+    return max; 
 }
