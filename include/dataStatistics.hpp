@@ -8,7 +8,7 @@
 
 class DataStatistics
 {
-private:
+protected:
     MeasurementData windspeed;
     MeasurementData temperature;
     MeasurementData humidity;
@@ -17,11 +17,11 @@ public:
     // Konstruktor
     DataStatistics();
 
-    void calculateAll(const std::queue<SensorData> &data);
+    virtual void calculateAll(const std::queue<SensorData> *data);
 
-    const MeasurementData &getWindspeed() const noexcept;
-    const MeasurementData &getTemperature() const noexcept;
-    const MeasurementData &getHumidity() const noexcept;
+    const MeasurementData getWindspeed() const noexcept;
+    const MeasurementData getTemperature() const noexcept;
+    const MeasurementData getHumidity() const noexcept;
 
     void displayStatistics(); // Display the statistics for 10 latest data
     // void displayAvailableData(); // Display the latest measurement data

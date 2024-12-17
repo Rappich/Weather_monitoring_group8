@@ -18,6 +18,11 @@ double Sensor::getData(double min, double max)
     return distribution(rng);
 }
 
+const SensorData &Sensor::getData()
+{
+    return this->data;
+}
+
 void Sensor::readData()
 {
     data.temperature = getData(-40.0, 40.0); // Temperature: -40 to 40

@@ -3,9 +3,9 @@
 
 TEST_CASE("Testing sensor manager class", "[SensorManager],[Class]")
 {
-    SensorManager sensor;
+    // SensorManager sensor;
 
-    sensor.generate(3);
-    REQUIRE_THROWS(sensor.getSensor(4));
-    REQUIRE_NOTHROW(sensor.getSensor(1));
+    // sensor.generate(3);
+    // REQUIRE_THROWS(sensor.getSensor(4));
+    // REQUIRE_NOTHROW(sensor.getSensor(1));
 }

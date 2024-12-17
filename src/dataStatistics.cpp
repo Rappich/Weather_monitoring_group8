@@ -6,14 +6,14 @@
 DataStatistics::DataStatistics() {}
 
 // Beräkna alla statistikvärden
-void DataStatistics::calculateAll(const std::queue<SensorData> &data)
+void DataStatistics::calculateAll(const std::queue<SensorData> *data)
 {
-    if (data.empty())
+    if (data->empty())
     {
         return;
     }
 
-    auto first = data.front();
+    auto first = data->front();
 
     temperature.avg = 0;
     windspeed.avg = 0;
@@ -30,7 +30,7 @@ void DataStatistics::calculateAll(const std::queue<SensorData> &data)
     double sum = 0;
     int count = 0;
 
-    std::queue<SensorData> tempQueue = data;
+    std::queue<SensorData> tempQueue = *data;
 
     while (!tempQueue.empty())
     {
@@ -55,19 +55,20 @@ void DataStatistics::calculateAll(const std::queue<SensorData> &data)
         ++count;
     }
 
-    temperature.avg /= count;
-    windspeed.avg /= count;
-    humidity.avg /= count;
+    temperature.avg /= (double) count;
+    windspeed.avg /= (double) count;
+    humidity.avg /= (double) count;
 }
-const MeasurementData &DataStatistics::getWindspeed() const noexcept
+
+const MeasurementData DataStatistics::getWindspeed() const noexcept
 {
     return windspeed;
 }
-const MeasurementData &DataStatistics::getTemperature() const noexcept
+const MeasurementData DataStatistics::getTemperature() const noexcept
 {
     return temperature;
 }
-const MeasurementData &DataStatistics::getHumidity() const noexcept
+const MeasurementData DataStatistics::getHumidity() const noexcept
 {
     return humidity;
 }

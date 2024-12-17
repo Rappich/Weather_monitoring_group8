@@ -29,6 +29,8 @@ public:
 
     // generates and retursns sensor data
     double getData(double min, double max);
+    const SensorData &getData();
+    
     // simulates reading data from the sensor
     void readData();
 };
