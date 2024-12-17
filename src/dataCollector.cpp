@@ -24,6 +24,7 @@ void DataCollector::addData(unsigned int sensorId, SensorData data)
         this->m_sensorData[sensorId] = {};
     }
     this->m_sensorData[sensorId].push(data);
+    this->m_dataReady = true;
 }
 
 /**
@@ -31,6 +32,11 @@ void DataCollector::addData(unsigned int sensorId, SensorData data)
  */
 const std::queue<SensorData> *DataCollector::getSensorData(unsigned int sensorId) noexcept
 {
+    std::unique_lock<std::mutex> lock(m_mtx);
+    if (m_sensorData.size() == 0)
+    {
+        this->m_dataReadySignal.wait(lock);
+    }
     if (this->m_sensorData.contains(sensorId))
         return &this->m_sensorData.at(sensorId);
     else 
@@ -42,9 +48,6 @@ const std::queue<SensorData> *DataCollector::getSensorData(unsigned int sensorId
  */
 const std::map<unsigned int, std::queue<SensorData>> &DataCollector::getSensorData() noexcept
 {
-    std::unique_lock<std::mutex> lock(m_mtx);
-    this->m_dataReadySignal.wait(lock);
-    std::cout << "Inside: " << this->m_sensorData.size() << std::endl; 
     return this->m_sensorData;
 }
 
