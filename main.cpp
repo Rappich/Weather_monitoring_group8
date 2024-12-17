@@ -39,7 +39,10 @@ int main(int argc, char const *argv[])
             std::cout << i + 1 << ": " << city[i].first << std::endl;
         }
 
-        std::cin >> choice;
+        if (std::cin >> choice)
+        {
+
+        }
 
         if (choice<0)
         {
@@ -48,40 +51,50 @@ int main(int argc, char const *argv[])
         }
 
 
-        else if(choice>0)
+        else if(choice>0 && choice <= city.size())
         {
-        switch (choice)
-        {
-            case 1: {
-                std::cout << "You selected Skellefteå" << std::endl;
+            switch (choice)
+            {
+                case 1: {
+                    std::cout << "You selected Skellefteå" << std::endl;
+                    break;
+                }
+                case 2:
+                    std::cout << "You selected Helsignborg" << std::endl;
+                    break;
+
+                case 3:
+                    std::cout << "You selected Stockholm" << std::endl;
+                    break;
+                
+                default:
+                    std::cout << "Invalid choice" << std::endl;
+                    break;
+                }
+
+                #ifdef WINDOWS
+                    system("cls");
+                #else
+                    system("clear");
+                #endif
+
                 SensorManager &sensors = *city[choice].second.get();
                 DataCollector *collector = sensors.getDataCollector();
 
+                sensors.generate(3);
+
                 DataStatistics statistics{};
 
-                std::cout << collector->getSensorData().size() << std::endl;
-                for (const auto &sensor : collector->getSensorData())
-                {
-                    statistics.calculateAll(collector->getSensorData(sensor.first));
-                    statistics.displayStatistics();
-                }
-                
-                break;
-            }
-            case 2:
-                std::cout << "You selected Helsignborg" << std::endl;
-                break;
+                auto data = collector->getSensorData();
+                std::cout << data.size() << std::endl;
 
-            case 3:
-                std::cout << "You selected Stockholm" << std::endl;
-                break;
-            
-            default:
-                std::cout << "Invalid choice" << std::endl;
-                break;
+                statistics.calculateAll(collector->getSensorData(choice));
+                statistics.displayStatistics();
+                std::cout << "Press enter to continue..." << std::endl;
+
             }
+                
         }
-    }
     while(choice!=0);
     // Display current and historical data.
     return 0;

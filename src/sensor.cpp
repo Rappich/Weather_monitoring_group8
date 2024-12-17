@@ -14,8 +14,9 @@ int Sensor::getID() const
 
 double Sensor::getData(double min, double max)
 {
-    std::uniform_real_distribution<double> distribution(min, max);
-    return distribution(rng);
+    static thread_local std::mt19937 generator;
+    std::uniform_real_distribution<double> distribution(min,max);
+    return distribution(generator);
 }
 
 const SensorData &Sensor::getData()

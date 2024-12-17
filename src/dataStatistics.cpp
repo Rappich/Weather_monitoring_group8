@@ -27,7 +27,6 @@ void DataStatistics::calculateAll(const std::queue<SensorData> *data)
     windspeed.min = first.windspeed;
     humidity.min = first.humidity;
 
-    double sum = 0;
     int count = 0;
 
     std::queue<SensorData> tempQueue = *data;
@@ -38,18 +37,25 @@ void DataStatistics::calculateAll(const std::queue<SensorData> *data)
 
         if (data.temperature < temperature.min)
             temperature.min = data.temperature;
-        else if (data.temperature > temperature.max)
+        
+        if (data.temperature >= temperature.max)
             temperature.max = data.temperature;
 
         if (data.humidity < humidity.min)
             humidity.min = data.humidity;
-        else if (data.humidity > humidity.max)
+        
+        if (data.humidity >= humidity.max)
             humidity.max = data.humidity;
 
         if (data.windspeed < windspeed.min)
             windspeed.min = data.windspeed;
-        else if (data.windspeed > windspeed.max)
+        
+        if (data.windspeed >= windspeed.max)
             windspeed.max = data.windspeed;
+
+        windspeed.avg += data.windspeed;
+        temperature.avg += data.temperature;
+        humidity.avg += data.humidity;
 
         tempQueue.pop();
         ++count;
@@ -79,7 +85,7 @@ void DataStatistics::displayStatistics()
     std::cout << "Displaying statistics:" << std::endl;
     std::cout << "Average temperature: " << temperature.avg << std::endl;
     std::cout << "Average humidity: " << humidity.avg << std::endl;
-    std::cout << "Avrige windspeed" << windspeed.avg << std::endl;
+    std::cout << "Avrige windspeed: " << windspeed.avg << std::endl;
 }
 
 /* void DataStatistics::displayAvailableData()

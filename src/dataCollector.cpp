@@ -4,29 +4,26 @@
 
 DataCollector::DataCollector()
 {
-    this->m_mtx.lock();
-}
 
-/** Tells the class that the data is not ready to be summarized */
-void DataCollector::resetFlag()
-{
-    this->m_mtx.try_lock();
 }
 
 /** If true the class values will be emptied later. */
-void DataCollector::setDataReady(bool ready)
-{
-    if (ready)
-        this->m_mtx.unlock();
-    else
-        this->m_mtx.try_lock();
+void DataCollector::setDataReady(bool ready) {
+    std::lock_guard<std::mutex> lock(m_mtx);
+    this->m_dataReady = ready;
+    if (ready) {
+        m_dataReadySignal.notify_all();
+    }
 }
 
 /** Inserts sensor data into a sensor using the sensors id. */
 void DataCollector::addData(unsigned int sensorId, SensorData data)
 {
+    if (!this->m_sensorData.contains(sensorId))
+    {
+        this->m_sensorData[sensorId] = {};
+    }
     this->m_sensorData[sensorId].push(data);
-    std::cout << "Add data: " << m_sensorData[sensorId].size() << std::endl; 
 }
 
 /**
@@ -43,8 +40,11 @@ const std::queue<SensorData> *DataCollector::getSensorData(unsigned int sensorId
 /**
  * @returns a map with all sensors data that is currently stored in the class.
  */
-const std::map<unsigned int, std::queue<SensorData>> DataCollector::getSensorData() noexcept
+const std::map<unsigned int, std::queue<SensorData>> &DataCollector::getSensorData() noexcept
 {
+    std::unique_lock<std::mutex> lock(m_mtx);
+    this->m_dataReadySignal.wait(lock);
+    std::cout << "Inside: " << this->m_sensorData.size() << std::endl; 
     return this->m_sensorData;
 }
 

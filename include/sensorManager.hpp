@@ -19,7 +19,7 @@ private:
 
     DataCollector m_dataCollector;
 
-    std::thread *m_thread{nullptr};
+    std::shared_ptr<std::thread> m_thread{nullptr};
 public:
     SensorManager();
     virtual ~SensorManager();
@@ -28,7 +28,7 @@ public:
     void generate(unsigned int numSensors);
 
     // retrieves a sensor by ID from sensor class
-    Sensor &getSensor(int id);
+    Sensor &getSensor(unsigned int id);
 
     // add a sensor to the hashmap
     void setSensor(unsigned int, Sensor &);
