@@ -20,11 +20,7 @@ SensorManager::SensorManager()
                     this->m_dataCollector.addData(pair.first, pair.second.getData());
                 }
 
-                if (++readings >= 10)
-                {
-                    this->m_dataCollector.setDataReady(true);
-                    readings = 0;
-                }
+                this->getDataCollector()->setDataReady(true);
             }
 
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
