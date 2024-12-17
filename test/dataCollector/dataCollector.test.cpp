@@ -31,7 +31,10 @@ TEST_CASE("Testing DataCollector methods", "[DataCollector],[Class],[Data],[Sens
     DataCollector dataCollector;
 
     dataCollector.addData(0, SensorData{10, 20, 30});
+    dataCollector.addData(1, SensorData{10, 20, 30});
+    dataCollector.addData(2, SensorData{10, 20, 30});
+
     CHECK(dataCollector.getSensorData(0)->front().windspeed == 10);
-    CHECK(dataCollector.getSensorData(0)->front().temperature == 20);
-    CHECK(dataCollector.getSensorData(0)->front().humidity == 30);
+    CHECK(dataCollector.getSensorData(1)->front().temperature == 20);
+    CHECK(dataCollector.getSensorData(2)->front().humidity == 30);
 }

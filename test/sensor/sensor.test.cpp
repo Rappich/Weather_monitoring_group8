@@ -10,4 +10,28 @@ TEST_CASE("Testing sensor class", "[Sensor],[Class],[Generation]")
 
     CHECK(sensor.getData(1, 100) != 0);
     CHECK(sensor.getData(-100, -1) != 0);
+
+    sensor.readData();
+    CHECK(sensor.getData().humidity >= 0);
+    CHECK(sensor.getData().humidity <= 100.0);
+    CHECK(sensor.getData().temperature >= -40.0);
+    CHECK(sensor.getData().temperature <= 40.0);
+    CHECK(sensor.getData().windspeed >= 0);
+    CHECK(sensor.getData().windspeed <= 30.0);
+
+    sensor.readData();
+    CHECK(sensor.getData().humidity >= 0);
+    CHECK(sensor.getData().humidity <= 100.0);
+    CHECK(sensor.getData().temperature >= -40.0);
+    CHECK(sensor.getData().temperature <= 40.0);
+    CHECK(sensor.getData().windspeed >= 0);
+    CHECK(sensor.getData().windspeed <= 30.0);
+
+    sensor.readData();
+    CHECK(sensor.getData().humidity >= 0);
+    CHECK(sensor.getData().humidity <= 100.0);
+    CHECK(sensor.getData().temperature >= -40.0);
+    CHECK(sensor.getData().temperature <= 40.0);
+    CHECK(sensor.getData().windspeed >= 0);
+    CHECK(sensor.getData().windspeed <= 30.0);
 }
