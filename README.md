@@ -62,35 +62,34 @@ The system will operate in a real-time environment, generating simulated sensor 
 ## **1. Sensor Simulation**
 ### Task 1: Sensor Thread Implementation & data range configuration
 - **Subtasks**:
-- [ ] Decide 
-  - [ ] Write a thread for each sensor:
-    - [ ] Temperature: -30°C to 40°C.
-    - [ ] Humidity: 0% to 100%.
-    - [ ] Wind Speed: 0 m/s to 30 m/s.
-  - [ ] Use random number generation for sensor readings.
-  - [ ] Ensure each sensor generates data every 500 milliseconds.
-  - [ ] Test random number generation to ensure realistic outputs.
+  - [x] Write a thread for each sensor:
+    - [x] Temperature: -40°C to 40°C.
+    - [x] Humidity: 0% to 100%.
+    - [x] Wind Speed: 0 m/s to 30 m/s.
+  - [x] Use random number generation for sensor readings.
+  - [x] Ensure each sensor generates data every 500 milliseconds.
+  - [x] Test random number generation to ensure realistic outputs.
 
 ---
 
 ## **2. Data Collection**
 ### Task 1: Shared Memory Setup
 - **Subtasks**:
-  - [ ] Define a shared memory structure to store sensor readings for all the sensors.
-  - [ ] Include fields for:
-    - Latest temperature
-    - Latest humidity
-    - Latest wind speed
+  - [x] Define a shared memory structure to store sensor readings for all the sensors.
+  - [x] Include fields for:
+    - [x] Latest temperature
+    - [x] Latest humidity
+    - [x] Latest wind speed
 
 ### Task 2: Mutex Protection
 - **Subtasks**:
-  - [ ] Add a mutex to protect shared memory access.
-  - [ ] Implement locking and unlocking mechanisms for thread safety.
+  - [x] Add a mutex to protect shared memory access.
+  - [x] Implement locking and unlocking mechanisms for thread safety.
 
 ### Task 3: Data Availability Signaling
 - **Subtasks**:
-  - [ ] Implement flags to indicate when new data is available, eg. dataReady = false;.
-  - [ ] Write logic to reset flags after data is processed.
+  - [x] Implement flags to indicate when new data is available, eg. dataReady = false;.
+  - [x] Write logic to reset flags after data is processed.
 
 ---
 
