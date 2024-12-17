@@ -85,8 +85,16 @@ void DataStatistics::displayStatistics()
     std::cout << "Displaying statistics:" << std::endl;
     std::cout << "Average temperature: " << temperature.avg << std::endl;
     std::cout << "Average humidity: " << humidity.avg << std::endl;
-    std::cout << "Avrige windspeed: " << windspeed.avg << std::endl;
+    std::cout << "Avarege windspeed: " << windspeed.avg << std::endl;
 }
+
+void DataStatistics::print(const SensorData &data)
+{
+    std::cout << "Temperature: " << data.temperature << std::endl;
+    std::cout << "Humidity: " << data.humidity << std::endl;
+    std::cout << "Windspeed: " << data.windspeed << std::endl;
+}
+
 
 /* void DataStatistics::displayAvailableData()
 {
