@@ -23,6 +23,7 @@ public:
     const MeasurementData getTemperature() const noexcept;
     const MeasurementData getHumidity() const noexcept;
 
+    void print(const SensorData &data);
     void displayStatistics(); // Display the statistics for 10 latest data
     // void displayAvailableData(); // Display the latest measurement data
 };
