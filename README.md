@@ -96,22 +96,17 @@ The system will operate in a real-time environment, generating simulated sensor 
 ## **3. Data Processing**
 ### Task 1: Statistics Calculation Thread
 - **Subtasks**:
-  - [ ] Create a separate thread to calculate statistics (mean, min, max) for each sensor.
-  - [ ] Implement logic to process the last 10 readings of each sensor.
-  - [ ] Schedule the thread to run every 5 seconds.
+  - [x] Create a separate thread to calculate statistics (mean, min, max) for each sensor.
+  - [x] Implement logic to process the last 10 readings of each sensor.
+  - [x] Schedule the thread to run every 5 seconds.
 
 ---
 
 ## **4. Data Display**
 ### Task 1: Real-Time Data Display
 - **Subtasks**:
-  - [ ] Create a periodic task to display the latest sensor data every 2 seconds.
-  - [ ] Format console output for clarity.
-
-### Task 2: Statistics Display
-- **Subtasks**:
-  - [ ] Create another periodic task to display statistics every 10 seconds.
-  - [ ] Format the console to separate current data and statistics clearly.
+  - [x] Create a periodic task to display the latest sensor data every 2 seconds.
+  - [x] Format the console to separate current data and statistics clearly.
 
 ---
 
