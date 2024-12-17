@@ -1,9 +1,11 @@
 #include "dataStatistics.hpp"
 #include <limits>
 #include "measurementData.hpp"
+#include <iostream>
 
 DataStatistics::DataStatistics() {}
 
+// Beräkna alla statistikvärden
 void DataStatistics::calculateAll(const std::queue<SensorData> &data)
 {
     if (data.empty())
@@ -69,3 +71,21 @@ const MeasurementData &DataStatistics::getHumidity() const noexcept
 {
     return humidity;
 }
+
+void DataStatistics::displayStatistics()
+{
+    // Print the statistics using DataStatistics
+    std::cout << "Displaying statistics:" << std::endl;
+    std::cout << "Average temperature: " << temperature.avg << std::endl;
+    std::cout << "Average humidity: " << humidity.avg << std::endl;
+    std::cout << "Avrige windspeed" << windspeed.avg << std::endl;
+}
+
+/* void DataStatistics::displayAvailableData()
+{
+    //
+    std::cout << "Displaying last measured data..." << std::endl;
+   // std::cout << "Temperature: " << dataCollector.getTemperature() << std::endl;
+   // std::cout << "Humidity: " << dataCollector.getHumidity() << std::endl;
+    std::cout << "Windspeed: " << dataCollector.getWindspeed() << std::endl;
+} */
