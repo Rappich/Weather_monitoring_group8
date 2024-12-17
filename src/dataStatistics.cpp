@@ -82,10 +82,18 @@ const MeasurementData DataStatistics::getHumidity() const noexcept
 void DataStatistics::displayStatistics()
 {
     // Print the statistics using DataStatistics
-    std::cout << "Displaying statistics:" << std::endl;
-    std::cout << "Average temperature: " << temperature.avg << std::endl;
-    std::cout << "Average humidity: " << humidity.avg << std::endl;
-    std::cout << "Avarege windspeed: " << windspeed.avg << std::endl;
+    std::cout <<"\033[1;31mDisplaying statistics:\033[0m" << std::endl;
+    std::cout <<"Average temperature: " << temperature.avg << std::endl;
+    std::cout <<"Lowest measured tempreature: " << temperature.min <<std::endl; 
+    std::cout <<"Highest measured tempreature: " << temperature.max <<std::endl; 
+
+    std::cout <<"Average humidity: " << humidity.avg << std::endl;
+    std::cout <<"Lowest humidity: " << humidity.min <<std::endl; 
+    std::cout <<"Highest humidity: " << humidity.max <<std::endl; 
+    
+    std::cout <<"Avarege windspeed: " << windspeed.avg << std::endl;
+    std::cout <<"Lowest windspeed: " << windspeed.min <<std::endl; 
+    std::cout <<"Highest windspeed: " << windspeed.max <<std::endl; 
 }
 
 void DataStatistics::print(const SensorData &data)

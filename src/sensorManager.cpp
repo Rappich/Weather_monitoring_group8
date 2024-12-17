@@ -39,9 +39,9 @@ void SensorManager::generate(unsigned int numSensors)
     {
         std::lock_guard<std::mutex> lock_guard(m_mtx);
 
-        for (unsigned int i = 0; i < numSensors; ++i)
+        for (unsigned int i = 0; i < numSensors; i++)
         {
-            sensors.insert({i, Sensor(i)});
+            sensors.insert({i + 1, Sensor(i)});
         } //lämnar scope
     }
     std::cout << numSensors << " sensors initialized.\n";
