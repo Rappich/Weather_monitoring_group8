@@ -2,7 +2,6 @@
 
 Sensor::Sensor(int sensorID) : id(sensorID), data()
 {
-    // seed to add randomness
     std::random_device rd;
     rng = std::mt19937(rd());
 }
@@ -10,7 +9,6 @@ Sensor::Sensor(int sensorID) : id(sensorID), data()
 Sensor::Sensor(int sensorID, double avgTemp, double avgHumidity, double avgWindspeed) 
     : id(sensorID), data(), avgTemp(avgTemp), avgHumidity(avgHumidity), avgWindspeed(avgWindspeed)
 {
-    // seed to add randomness
     std::random_device rd;
     rng = std::mt19937(rd());
 }
@@ -20,35 +18,40 @@ int Sensor::getID() const
     return id;
 }
 
-double Sensor::generateData(double avg, double delta)
+double Sensor::getRandomValue(double min, double max)
 {
-    static thread_local std::mt19937 generator;
-    std::uniform_real_distribution<double> distribution(avg - delta, avg + delta);
-    return distribution(generator);
+    std::uniform_real_distribution<double> distribution(min, max);
+    return distribution(rng);
 }
 
-double Sensor::generateData(double avg)
+const SensorData &Sensor::getData() const
 {
-    static thread_local std::mt19937 generator;
-    std::uniform_real_distribution<double> distribution(avg - 5, avg + 5);
-    return distribution(generator);
+    return data;
 }
 
-
-const SensorData &Sensor::getData()
+SensorData Sensor::generateData(double avgTemp, double avgHum, double avgWind)
 {
-    return this->data;
+    SensorData generatedData;
+
+    generatedData.temperature = std::clamp(
+        getRandomValue(avgTemp - 5.0, avgTemp + 5.0),
+        GLOBAL_MIN_TEMPERATURE, GLOBAL_MAX_TEMPERATURE);
+
+    generatedData.humidity = std::clamp(
+        getRandomValue(avgHum - 10.0, avgHum + 10.0),
+        GLOBAL_MIN_HUMIDITY, GLOBAL_MAX_HUMIDITY);
+
+    generatedData.windspeed = std::clamp(
+        getRandomValue(avgWind - 3.0, avgWind + 3.0),
+        GLOBAL_MIN_WIND, GLOBAL_MAX_WIND);
+
+    generatedData.timestamp = std::time(nullptr);
+    return generatedData;
 }
 
 void Sensor::readData()
 {
-    data.temperature = generateData(avgTemp, 5); // Temperature: -40 to 40
-    if (avgHumidity >= 90)
-        avgHumidity -= 10;
-    if (avgHumidity <= 10)
-        avgHumidity += 10;
-    data.humidity = generateData(avgHumidity, 10);     // Humidity: 0% to 100%
-    if (avgWindspeed < 0)
-        avgWindspeed = 5;
-    data.windspeed = generateData(avgWindspeed, 5);     // Wind speed: 0 to 30 m/s
+    data = generateData((GLOBAL_MIN_TEMPERATURE + GLOBAL_MAX_TEMPERATURE) / 2,
+                        (GLOBAL_MIN_HUMIDITY + GLOBAL_MAX_HUMIDITY) / 2,
+                        (GLOBAL_MIN_WIND + GLOBAL_MAX_WIND) / 2);
 }

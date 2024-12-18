@@ -5,6 +5,15 @@
 #include <string>
 #include <random>
 
+constexpr double GLOBAL_MIN_TEMPERATURE = -40.0;
+constexpr double GLOBAL_MAX_TEMPERATURE = 40.0;
+
+constexpr double GLOBAL_MIN_HUMIDITY = 0.0;
+constexpr double GLOBAL_MAX_HUMIDITY = 100.0;
+
+constexpr double GLOBAL_MIN_WIND = 0.0;
+constexpr double GLOBAL_MAX_WIND = 30.0;
+
 class Sensor
 {
 private:
@@ -26,14 +35,15 @@ public:
     // return sensor ID
     int getID() const;
 
-    // generates and retursns sensor data
-    double generateData(double avg);
-    double generateData(double avg, double delta);
+    double getRandomValue(double min, double max);
 
-    const SensorData &getData();
-    
+    // generates and retursns sensor data
+    double getData(double min, double max);
+    const SensorData &getData() const;
     // simulates reading data from the sensor
     void readData();
+
+    SensorData generateData(double avgTemp, double avgHum, double avgWind);
 };
 
 #endif
