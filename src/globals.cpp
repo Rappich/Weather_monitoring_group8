@@ -11,6 +11,8 @@
 #define LIST_COLOR_BOLD "\e[1m"
 #define TITLE_COLOR "\e[1;32m"
 
+
+// Display menu for programs functionality
 void displayMenu()
 {
     std::cout << TITLE_COLOR << "Menu: \n" << NO_COLOR;
@@ -21,6 +23,7 @@ void displayMenu()
     std::cout << LIST_COLOR_NUMBERS << "0. " << NO_COLOR << "Exit \n";
 }
 
+// Show sensor data in real time from chosen city
 void showSensorData(Cities &cities)
 {
     if (cities.empty())
@@ -83,13 +86,6 @@ void showSensorData(Cities &cities)
         }
     }};
 
-    // Skulle behövas ett knapptryck istället.
-    // std::this_thread::sleep_for(std::chrono::seconds(10));
-
-    // std::signal(SIGINT, [&](int signal) { // Kanske en lösning?
-        
-    // });
-
     std::cout << "Press Enter to stop displaying data...\n";
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -104,6 +100,7 @@ void showSensorData(Cities &cities)
     if (t2.joinable()) t2.join();   
 }
 
+// Adds a city with avg readings
 void createCity(Cities &cities)
 {
     std::string name;
@@ -148,6 +145,7 @@ void createCity(Cities &cities)
               << "- Average Wind Speed: " << avgWind << " m/s\n";
 }
 
+// Function to modify existing cities
 void modifyCity(Cities &cities)
 {
     if (cities.empty())
@@ -208,6 +206,7 @@ void modifyCity(Cities &cities)
     std::cout << "New average wind speed: " << newAvgWind << " m/s\n";
 }
 
+//Function to remove city from program 
 void removeCity(Cities &cities)
 {
     if (cities.empty())

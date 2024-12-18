@@ -3,6 +3,7 @@
 #include <ctime>
 #include <random>
 
+
 Sensor::Sensor(int sensorID) : id(sensorID), data()
 {
     std::random_device rd;
@@ -21,6 +22,7 @@ int Sensor::getID() const
     return id;
 }
 
+
 double Sensor::getRandomValue(double min, double max)
 {
     std::uniform_real_distribution<double> distribution(min, max);
@@ -32,6 +34,10 @@ const SensorData &Sensor::getData() const
     return data;
 }
 
+
+/**
+ * @returns Returns generated sensor data with simulated average conditions.
+  */
 SensorData Sensor::generateData(double avgTemp, double avgHum, double avgWind)
 {
     SensorData generatedData;
@@ -52,6 +58,7 @@ SensorData Sensor::generateData(double avgTemp, double avgHum, double avgWind)
     return generatedData;
 }
 
+//Assigns generated data to self
 void Sensor::readData()
 {
     data = generateData((GLOBAL_MIN_TEMPERATURE + GLOBAL_MAX_TEMPERATURE) / 2,
