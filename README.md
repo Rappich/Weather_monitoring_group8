@@ -31,7 +31,7 @@ The system will operate in a real-time environment, generating simulated sensor 
 ### **3.1 Sensor Simulation**
 - Each sensor must:
   - Generate random data every 500 ms.
-  - Operate within these ranges:
+  - The program should should have a global variable scope for measured data, for instance:
     - Temperature: -40°C to 40°C
     - Humidity: 0% to 100%
     - Wind Speed: 0 m/s to 30 m/s.
@@ -113,15 +113,14 @@ The system will operate in a real-time environment, generating simulated sensor 
 ## **5. Optional Tasks (Non-Functional Requirements)**
 ### Task 1: Code Maintainability
 - **Subtasks**:
-  - [ ] Modularize code to allow easy addition of new sensors.
-  - [ ] Write clear documentation for each module.
-  - [ ] Refactor the program to use link list or queues instead of bool flags.
+  - [X] Modularize code to allow easy addition of new sensors.
+  - [x] Write clear documentation for each module.
+  - [N/A] Refactor the program to use link list or queues instead of bool flags.
 
 ### Task 2: System Scalability
 - **Subtasks**:
-  - [ ] Design data structures to support more sensors.
-  - [ ] Ensure the system remains responsive as more threads are added.
-  - [ ] Simulate the data for for more locations.
+  - [x] Ensure the system remains responsive as more threads are added.
+  - [x] Simulate the data for for more locations.
   - [ ] Simulate the data for different seasons/dates.
   - [ ] Add a database to the program.
 
