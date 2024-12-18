@@ -22,8 +22,11 @@ private:
     std::shared_ptr<std::thread> m_thread{nullptr};
 
     std::condition_variable m_stopSignal;
+
+    double avgTemp, avgHumidity, avgWindspeed;
 public:
     SensorManager();
+    SensorManager(double avgTemp, double avgHumidity, double avgWindspeed);
     virtual ~SensorManager();
 
     // generates and initializes sensors

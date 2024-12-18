@@ -29,6 +29,35 @@ SensorManager::SensorManager()
     }));
 }
 
+SensorManager::SensorManager(double avgTemp, double avgHumidity, double avgWindspeed)
+    : avgTemp(avgTemp), avgHumidity(avgHumidity), avgWindspeed(avgWindspeed)
+{
+    this->isRunning = true;
+
+    this->m_thread = std::make_shared<std::thread>(std::thread([this]()
+    {
+        short readings = 0;
+        while(this->isRunning)
+        {
+            std::unique_lock<std::mutex> threadLock(this->m_threadmtx);
+            {
+                std::lock_guard<std::mutex> lock(this->m_mtx);
+
+                for (auto& pair : sensors)
+                {
+                    pair.second.readData();
+                    this->m_dataCollector.addData(pair.first, pair.second.getData());
+                }
+
+                this->getDataCollector()->setDataReady(true);
+            }
+
+            this->m_stopSignal.wait_for(threadLock, std::chrono::milliseconds(500));
+        }
+    }));
+}
+
+
 SensorManager::~SensorManager()
 {
     stopReading();
