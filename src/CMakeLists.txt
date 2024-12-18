@@ -11,5 +11,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED 23)
 
 file( GLOB_RECURSE files ./**.cpp ) # Find all .cpp files and save them int o variable "files"
 
+# find_package( SQLite3 REQUIRED )
+
 add_executable( main ../main.cpp ${files} ) # Build the executable from main.cpp and load files saved in variable "files"
 target_include_directories( main PRIVATE ../include ) # Include all necessary headers
+# target_include_directories( main PRIVATE ${SQLite3_INCLUDE_DIRS} )
+# target_link_libraries( main PRIVATE ${SQLite3_LIBRARIES} )

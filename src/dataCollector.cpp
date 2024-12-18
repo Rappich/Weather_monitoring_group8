@@ -51,22 +51,22 @@ const std::map<unsigned int, std::queue<SensorData>> &DataCollector::getSensorDa
     return this->m_sensorData;
 }
 
-/**
- * Method removes the returned sensor data from queue when called.   
- * @returns pointer to sensor data or nullptr if sensor does not exist
- */
-std::shared_ptr<SensorData> DataCollector::queryData(unsigned int sensorId)
-{
-    std::unique_lock<std::mutex> lock_guard(m_mtx);
-    this->m_dataReadySignal.wait(lock_guard);
+// /**
+//  * Method removes the returned sensor data from queue when called.   
+//  * @returns pointer to sensor data or nullptr if sensor does not exist
+//  */
+// std::shared_ptr<SensorData> DataCollector::queryData(unsigned int sensorId)
+// {
+//     std::unique_lock<std::mutex> lock_guard(m_mtx);
+//     this->m_dataReadySignal.wait(lock_guard);
 
-    if (!this->m_sensorData.contains(sensorId) || this->m_sensorData.at(sensorId).size() == 0)
-        return nullptr;
+//     if (!this->m_sensorData.contains(sensorId) || this->m_sensorData.at(sensorId).size() == 0)
+//         return nullptr;
 
-    std::shared_ptr<SensorData> ptr;
-    SensorData data = this->m_sensorData[sensorId].front();
-    ptr = std::make_shared<SensorData>(data);
+//     std::shared_ptr<SensorData> ptr;
+//     SensorData data = this->m_sensorData[sensorId].front();
+//     ptr = std::make_shared<SensorData>(data);
 
-    this->m_sensorData[sensorId].pop();
-    return ptr;
-}
+//     this->m_sensorData[sensorId].pop();
+//     return ptr;
+// }

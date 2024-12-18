@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD 23) # Set C++ standard to 23
 set(CMAKE_CXX_STANDARD_REQUIRED 23)
 
 find_package( Catch2 REQUIRED )
+# find_package( SQLite3 REQUIRED )
 
 file( GLOB_RECURSE files ../src/**.cpp ) # Find all .cpp files and save them int o variable "files"
 file( GLOB_RECURSE test_files ./**.cpp ) # Find all .cpp files and save them int o variable "files"
@@ -20,6 +21,8 @@ add_executable( test test.cpp ${files} ${test_files} ) # Build the executable fr
 
 target_include_directories( test PRIVATE ../include ) # Include all necessary headers
 target_link_libraries( test PRIVATE Catch2::Catch2WithMain )
+# target_link_libraries( test PRIVATE ${SQLite3_LIBRARIES} )
+# target_include_directories( test PRIVATE ${SQLite3_INCLUDE_DIRS} )
 
 include( CTest )
 include( Catch )
