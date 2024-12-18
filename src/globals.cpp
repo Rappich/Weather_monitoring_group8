@@ -1,8 +1,7 @@
 #include "globals.hpp"
 
-#include "include/dataCollector.hpp"
-#include "include/dataStatistics.hpp"
-#include "include/sensorManager.hpp"
+#include "dataCollector.hpp"
+#include "dataStatistics.hpp"
 #include <vector>
 #include <csignal>
 #include <iostream>
@@ -90,6 +89,11 @@ void showSensorData(Cities &cities)
     // std::signal(SIGINT, [&](int signal) { // Kanske en lösning?
         
     // });
+
+    std::cout << "Press Enter to stop displaying data...\n";
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.get();
 
     signalDone.notify_all();
     isRunning = false;
