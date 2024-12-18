@@ -5,6 +5,7 @@
 #include "include/sensorManager.hpp"
 #include <vector>
 #include <csignal>
+#include <iostream>
 
 #define NO_COLOR "\e[0m"
 #define LIST_COLOR_NUMBERS "\e[1;30m"

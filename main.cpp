@@ -1,4 +1,5 @@
 #include "globals.hpp"
+#include <iostream>
 
 int main()
 {
