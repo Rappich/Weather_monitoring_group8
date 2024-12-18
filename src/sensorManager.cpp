@@ -23,14 +23,14 @@ SensorManager::SensorManager()
                 this->getDataCollector()->setDataReady(true);
             }
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            std::this_thread::sleep_for(std::chrono::seconds(5));
         }
     }));
 }
 
 SensorManager::~SensorManager()
 {
-
+    stopReading();
 }
 
 // Generates a specified number of sensors
