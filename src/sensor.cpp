@@ -1,4 +1,7 @@
 #include "sensor.hpp"
+#include <algorithm>
+#include <ctime>
+#include <random>
 
 Sensor::Sensor(int sensorID) : id(sensorID), data()
 {
