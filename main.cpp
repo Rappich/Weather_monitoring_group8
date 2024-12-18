@@ -2,50 +2,59 @@
 #include "include/dataStatistics.hpp"
 #include "include/sensorManager.hpp"
 
-//function that simulates data readData()
+/**
+ * 1. Visa mätvärden för stad
+ *      -> 1. Visa lista på städer
+ *      -> 2. Stadens id
+ * 1. Skapa stad
+ *      -> 1. Namn på stad
+ *      -> 2. Medel temp (dev)
+ *      -> 3. Medel fuktighet (dev)
+ *      -> 4. Medel vind (dev)
+ * 2. Modifiera stad
+ *      -> 1. Stadens id
+ *      -> 2. Namn på stad
+ *      -> 3. Medel temp (dev)
+ *      -> 4. Medel fuktighet (dev)
+ *      -> 5. Medel vind (dev)
+ * 3. Ta bort stad
+ *      -> 1. Stadens id
+ * 4. Avsluta
+ * 
+ */
 
-// void handleSIGINT(int signal)
-// {
-//     std::cout << signal << ": has been caught" << std::endl;
-// }
+using Cities = std::vector<std::pair<std::string, std::shared_ptr<SensorManager>>>;
 
-// class ShouldQuit
-// {
-//     virtual ~ShouldQuit() = 0;
-//     static std::atomic_bool shouldQuit;
-// public:
-//     static void handleQuit(int signal)
-//     {
-//         ShouldQuit::shouldQuit = true;
-//     }
-
-//     static std::atomic_bool &shouldQuit()
-//     {
-//         return ShouldQuit::shouldQuit;
-//     }
-// };
+void showSensorData(Cities& cities);
+void createCity(Cities& cities);
+void modifyCity(Cities& cities);
+void removeCity(Cities& cities);
+void printCities(Cities& cities);
 
 int main(int argc, char const *argv[])
 {
     std::cout << "Welcome stranger" << std::endl;
     std::cout << "To check weather please select a city" << std::endl;
-        
-    std::vector<std::pair<std::string, std::shared_ptr<SensorManager>>> city = {};
-    city.push_back({"Skellefteå", std::make_shared<SensorManager>()});
-    city.push_back({"Stockholm", std::make_shared<SensorManager>()});
-    city.push_back({"Helsingborg", std::make_shared<SensorManager>()});
 
-    // signal(SIGINT, ShouldQuit::handleQuit);
-    // signal(SIGKILL, ShouldQuit::handleQuit);
+    std::vector<std::pair<std::string, void(*)(Cities &cities)>> menu;
+    // menu.push_back(createCity);
+    // menu.push_back(createCity);
+    // menu.push_back(createCity);
+    // menu.push_back(createCity);
+        
+    Cities cities = {};
+    cities.push_back({"Skellefteå", std::make_shared<SensorManager>()});
+    cities.push_back({"Stockholm", std::make_shared<SensorManager>()});
+    cities.push_back({"Helsingborg", std::make_shared<SensorManager>()});
 
     int choice;
 
     do
     {        
         std::cout << "0: Exit" << std::endl;
-        for (int i = 0; i < city.size(); i++)
+        for (int i = 0; i < cities.size(); i++)
         {
-            std::cout << i + 1 << ": " << city[i].first << std::endl;
+            std::cout << i + 1 << ": " << cities[i].first << std::endl;
         }
 
         input: 
@@ -61,7 +70,7 @@ int main(int argc, char const *argv[])
         }
 
 
-        else if(choice > 0 && choice <= city.size() + 1)
+        else if(choice > 0 && choice <= cities.size() + 1)
         {
             switch (choice)
             {
@@ -88,7 +97,7 @@ int main(int argc, char const *argv[])
                 //     system("clear");
                 // #endif
 
-                SensorManager &sensors = *city[choice].second.get();
+                SensorManager &sensors = *cities[choice].second.get();
                 DataCollector *collector = sensors.getDataCollector();
 
                 sensors.generate(1);
@@ -142,4 +151,24 @@ int main(int argc, char const *argv[])
     std::cout << "Exiting..." << std::endl;
     // Display current and historical data.
     return 0;
+}
+
+void showSensorData(Cities& cities)
+{
+
+}
+
+void createCity(Cities& cities)
+{
+
+}
+
+void modifyCity(Cities& cities)
+{
+
+}
+
+void removeCity(Cities& cities)
+{
+
 }
