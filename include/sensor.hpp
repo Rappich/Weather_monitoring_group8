@@ -38,7 +38,6 @@ public:
     double getRandomValue(double min, double max);
 
     // generates and retursns sensor data
-    double getData(double min, double max);
     const SensorData &getData() const;
     // simulates reading data from the sensor
     void readData();
