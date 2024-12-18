@@ -25,17 +25,15 @@
 //     }
 // };
 
-void print(DataStatistics);
-
 int main(int argc, char const *argv[])
 {
     std::cout << "Welcome stranger" << std::endl;
     std::cout << "To check weather please select a city" << std::endl;
         
     std::vector<std::pair<std::string, std::shared_ptr<SensorManager>>> city = {};
-    city.emplace_back("Skellefteå", std::make_shared<SensorManager>());
-    city.emplace_back("Stockholm", std::make_shared<SensorManager>());
-    city.emplace_back("Helsingborg", std::make_shared<SensorManager>());
+    city.push_back({"Skellefteå", std::make_shared<SensorManager>()});
+    city.push_back({"Stockholm", std::make_shared<SensorManager>()});
+    city.push_back({"Helsingborg", std::make_shared<SensorManager>()});
 
     // signal(SIGINT, ShouldQuit::handleQuit);
     // signal(SIGKILL, ShouldQuit::handleQuit);
@@ -50,9 +48,10 @@ int main(int argc, char const *argv[])
             std::cout << i + 1 << ": " << city[i].first << std::endl;
         }
 
-        if (std::cin >> choice)
+        input: 
+        if ((std::cin >> choice))
         {
-
+            goto input;
         }
 
         if (choice<0)
@@ -62,7 +61,7 @@ int main(int argc, char const *argv[])
         }
 
 
-        else if(choice>0 && choice <= city.size() + 1)
+        else if(choice > 0 && choice <= city.size() + 1)
         {
             switch (choice)
             {
@@ -129,6 +128,8 @@ int main(int argc, char const *argv[])
 
                 std::this_thread::sleep_for(std::chrono::seconds(10));
                 shouldQuit = true;
+
+                sensors.stopReading();
                 
                 if (t1.joinable()) t1.join();
                 if (t2.joinable()) t2.join();
@@ -136,7 +137,9 @@ int main(int argc, char const *argv[])
             }
                 
         }
-    while(choice!=0);
+    while(choice != 0);
+
+    std::cout << "Exiting..." << std::endl;
     // Display current and historical data.
     return 0;
 }
