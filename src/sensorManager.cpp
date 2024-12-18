@@ -11,6 +11,7 @@ SensorManager::SensorManager()
         short readings = 0;
         while(this->isRunning)
         {
+            std::unique_lock<std::mutex> threadLock(this->m_threadmtx);
             {
                 std::lock_guard<std::mutex> lock(this->m_mtx);
 
@@ -23,7 +24,7 @@ SensorManager::SensorManager()
                 this->getDataCollector()->setDataReady(true);
             }
 
-            std::this_thread::sleep_for(std::chrono::seconds(5));
+            this->m_stopSignal.wait_for(threadLock, std::chrono::milliseconds(500));
         }
     }));
 }
@@ -63,8 +64,9 @@ void SensorManager::setSensor(unsigned int id, Sensor &sensor)
 
 void SensorManager::stopReading()
 {
-    // std::lock_guard<std::mutex> lock_guard(this->m_mtx);
+    std::lock_guard<std::mutex> lock_guard(this->m_mtx);
     this->isRunning = false;
+    m_stopSignal.notify_all();
     if (this->m_thread->joinable())
         this->m_thread->join();
 }

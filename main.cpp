@@ -37,15 +37,11 @@ int main(int argc, char const *argv[])
     std::cout << "To check weather please select a city" << std::endl;
 
     std::vector<std::pair<std::string, void(*)(Cities &cities)>> menu;
-    // menu.push_back(createCity);
-    // menu.push_back(createCity);
-    // menu.push_back(createCity);
-    // menu.push_back(createCity);
         
     Cities cities = {};
-    cities.push_back({"Skellefteå", std::make_shared<SensorManager>()});
-    cities.push_back({"Stockholm", std::make_shared<SensorManager>()});
-    cities.push_back({"Helsingborg", std::make_shared<SensorManager>()});
+    cities.emplace_back("Skellefteå", std::make_shared<SensorManager>());
+    cities.emplace_back("Stockholm", std::make_shared<SensorManager>());
+    cities.emplace_back("Helsingborg", std::make_shared<SensorManager>());
 
     int choice;
 
@@ -56,16 +52,17 @@ int main(int argc, char const *argv[])
         {
             std::cout << i + 1 << ": " << cities[i].first << std::endl;
         }
-
-        input: 
-        if ((std::cin >> choice))
+        
+    input:
+        choice = 0; 
+        if (!(std::cin >> choice))
         {
             goto input;
         }
 
         if (choice<0)
         {
-            std::cout<< "Invalid choice. Please try again."<<std::endl; 
+            std::cout<< "Invalid choice. Please try again." << std::endl; 
             continue;
         }
 
@@ -107,9 +104,13 @@ int main(int argc, char const *argv[])
                 std::atomic_bool shouldQuit = false;
                 auto &data = collector->getSensorData();
 
-                std::thread t1([&statistics, &collector, choice, &shouldQuit]() {
+                std::condition_variable signalDone;
+                std::mutex threadMtx1, threadMtx2;
+
+                std::thread t1([&statistics, &collector, choice, &shouldQuit, &threadMtx1, &signalDone]() {
                     while (!shouldQuit)
-                    {
+                    {   
+                        std::unique_lock<std::mutex> lock(threadMtx1);
                         for (int i = 0; i < collector->getSensorData().size(); i++)
                         {
                             std::cout << "---- Live sensor " << i + 1 << " ----" << std::endl;
@@ -117,25 +118,24 @@ int main(int argc, char const *argv[])
                             statistics.print(data); //kontinuerlig print av realdata
                         }
                         
-                        std::this_thread::sleep_for(std::chrono::seconds(2));
+                        signalDone.wait_for(lock, std::chrono::seconds(2));
                     }
                 });
 
-                std::thread t2([&statistics, &collector, choice, &shouldQuit]() {
+                std::thread t2([&statistics, &collector, choice, &shouldQuit, &threadMtx2, &signalDone]() {
+                    std::unique_lock<std::mutex> lock(threadMtx2);
                     while (!shouldQuit)
                     {
                         //här låg displayStatistics                        
-                        std::this_thread::sleep_for(std::chrono::seconds(5));
+                        signalDone.wait_for(lock, std::chrono::seconds(5));
                     }
                     
                     statistics.calculateAll(collector->getSensorData(choice));
                     statistics.displayStatistics(); //nu ligger den här
                 });
-                
-                // std::cin.ignore(std::numeric_limits<std::streamsize>::max());
-                // std::cin.get();
 
                 std::this_thread::sleep_for(std::chrono::seconds(10));
+                signalDone.notify_all();
                 shouldQuit = true;
 
                 sensors.stopReading();

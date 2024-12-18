@@ -14,12 +14,14 @@ private:
     // map of sensor IDs to Sensor objects
     std::map<unsigned int, Sensor> sensors;
     
-    std::mutex m_mtx;
+    std::mutex m_mtx, m_threadmtx;
     std::atomic_bool isRunning;
 
     DataCollector m_dataCollector;
 
     std::shared_ptr<std::thread> m_thread{nullptr};
+
+    std::condition_variable m_stopSignal;
 public:
     SensorManager();
     virtual ~SensorManager();
