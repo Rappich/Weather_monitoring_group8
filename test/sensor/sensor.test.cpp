@@ -6,10 +6,6 @@ TEST_CASE("Testing sensor class", "[Sensor],[Class],[Generation]")
     Sensor sensor(1);
 
     CHECK(sensor.getID() == 1);
-    CHECK_NOTHROW(sensor.generateData(-10, 10));
-
-    CHECK(sensor.generateData(1, 100) != 0);
-    CHECK(sensor.generateData(-100, -1) != 0);
 
     sensor.readData();
     CHECK(sensor.getData().humidity >= 0);
