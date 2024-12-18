@@ -2,7 +2,6 @@
 
 Sensor::Sensor(int sensorID) : id(sensorID), data()
 {
-    // seed to add randomness
     std::random_device rd;
     rng = std::mt19937(rd());
 }
@@ -12,21 +11,40 @@ int Sensor::getID() const
     return id;
 }
 
-double Sensor::getData(double min, double max)
+double Sensor::getRandomValue(double min, double max)
 {
-    static thread_local std::mt19937 generator;
-    std::uniform_real_distribution<double> distribution(min,max);
-    return distribution(generator);
+    std::uniform_real_distribution<double> distribution(min, max);
+    return distribution(rng);
 }
 
-const SensorData &Sensor::getData()
+const SensorData &Sensor::getData() const
 {
-    return this->data;
+    return data;
+}
+
+SensorData Sensor::generateData(double avgTemp, double avgHum, double avgWind)
+{
+    SensorData generatedData;
+
+    generatedData.temperature = std::clamp(
+        getRandomValue(avgTemp - 5.0, avgTemp + 5.0),
+        GLOBAL_MIN_TEMPERATURE, GLOBAL_MAX_TEMPERATURE);
+
+    generatedData.humidity = std::clamp(
+        getRandomValue(avgHum - 10.0, avgHum + 10.0),
+        GLOBAL_MIN_HUMIDITY, GLOBAL_MAX_HUMIDITY);
+
+    generatedData.windspeed = std::clamp(
+        getRandomValue(avgWind - 3.0, avgWind + 3.0),
+        GLOBAL_MIN_WIND, GLOBAL_MAX_WIND);
+
+    generatedData.timestamp = std::time(nullptr);
+    return generatedData;
 }
 
 void Sensor::readData()
 {
-    data.temperature = getData(-40.0, 40.0); // Temperature: -40 to 40
-    data.humidity = getData(0.0, 100.0);     // Humidity: 0% to 100%
-    data.windspeed = getData(0.0, 30.0);     // Wind speed: 0 to 30 m/s
+    data = generateData((GLOBAL_MIN_TEMPERATURE + GLOBAL_MAX_TEMPERATURE) / 2,
+                        (GLOBAL_MIN_HUMIDITY + GLOBAL_MAX_HUMIDITY) / 2,
+                        (GLOBAL_MIN_WIND + GLOBAL_MAX_WIND) / 2);
 }
