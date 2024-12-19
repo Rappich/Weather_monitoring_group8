@@ -70,7 +70,7 @@ void SensorManager::generate(unsigned int numSensors)
 
         for (unsigned int i = 0; i < numSensors; i++)
         {
-            sensors.insert({i + 1, Sensor(i)});
+            sensors.insert({i + 1, Sensor(avgTemp, avgHumidity, avgWindspeed, time(nullptr))});
         }
     }
     std::cout << numSensors << " sensors initialized.\n";

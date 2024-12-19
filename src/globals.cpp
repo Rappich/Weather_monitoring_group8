@@ -14,10 +14,7 @@
 // Display menu for programs functionality
 void displayMenu()
 {
-    std::cout << TITLE_COLOR << "Menu: \n"
-              << NO_COLOR;
-    std::cout << TITLE_COLOR << "Menu: \n"
-              << NO_COLOR;
+    std::cout << TITLE_COLOR << "Menu: \n" << NO_COLOR;
     std::cout << LIST_COLOR_NUMBERS << "1. " << NO_COLOR << "Show Sensor Data \n";
     std::cout << LIST_COLOR_NUMBERS << "2. " << NO_COLOR << "Create City \n";
     std::cout << LIST_COLOR_NUMBERS << "3. " << NO_COLOR << "Modify City \n";
@@ -67,9 +64,13 @@ void showSensorData(Cities &cities)
     std::atomic_bool isRunning = true;
     std::condition_variable signalDone;
 
-    std::mutex mtx1, mtx2;
+    std::mutex mtx1, mtx2, printMtx;
 
     auto &dataMap = dataCollector->getSensorData();
+
+    printMtx.lock();
+    std::cout << "Press Enter to stop displaying data...\n";
+    printMtx.unlock();
 
     std::thread t1{[&]()
                    {
@@ -78,8 +79,10 @@ void showSensorData(Cities &cities)
                            std::unique_lock<std::mutex> lock(mtx1);
                            for (const auto &[sensorId, sensorQueue] : dataMap)
                            {
-                               std::cout << TITLE_COLOR << "\nSensor ID: " << NO_COLOR << sensorId << "\n";
-                               statistics.print(sensorQueue.back());
+                                std::lock_guard<std::mutex> printLock(printMtx);
+                                std::cout << TITLE_COLOR << "\nSensor ID: " << NO_COLOR << sensorId << "\n";
+                                statistics.print(sensorQueue.back());
+                                std::cout << "Press Enter to stop displaying data...\n";
                            }
                            signalDone.wait_for(lock, std::chrono::seconds(2));
                        }
@@ -87,16 +90,17 @@ void showSensorData(Cities &cities)
 
     std::thread t2{[&]()
                    {
-                       std::unique_lock<std::mutex> lock(mtx2);
-                       while (isRunning)
-                       {
-                           signalDone.wait_for(lock, std::chrono::seconds(5));
-                           statistics.calculateAll(dataCollector->getSensorData(choice));
-                           statistics.displayStatistics();
-                       }
+                        std::unique_lock<std::mutex> lock(mtx2);
+                        signalDone.wait(lock);
+                        for (const auto &[sensorId, sensorQueue] : dataMap)
+                        {
+                            std::lock_guard<std::mutex> printLock(printMtx);
+                            std::cout << TITLE_COLOR << "\nSummary of sensor with ID " << NO_COLOR << sensorId << "\n";
+                            statistics.calculateAll(&sensorQueue);
+                            statistics.displayStatistics();
+                        }
                    }};
 
-    std::cout << "Press Enter to stop displaying data...\n";
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::cin.get();
@@ -125,7 +129,6 @@ void createCity(Cities &cities)
 
     std::cout << "Enter the name of the city: ";
     std::cin.ignore();
-    std::cin.ignore();
     std::getline(std::cin, name);
 
     std::cout << "Enter the average temperature for " << name << " (°C): ";
@@ -146,10 +149,11 @@ void createCity(Cities &cities)
                   << "- Wind Speed: 0 m/s to 30 m/s\n";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.get();
         return;
     }
 
-    auto sensorManager = std::make_shared<SensorManager>();
+    auto sensorManager = std::make_shared<SensorManager>(avgTemperature, avgHumidity, avgWind);
     sensorManager->generate(1);
 
     SensorData sensorData(avgWind, avgTemperature, avgHumidity, std::time(nullptr));
