@@ -11,11 +11,11 @@
 #define LIST_COLOR_BOLD "\e[1m"
 #define TITLE_COLOR "\e[1;32m"
 
-
 // Display menu for programs functionality
 void displayMenu()
 {
-    std::cout << TITLE_COLOR << "Menu: \n" << NO_COLOR;
+    std::cout << TITLE_COLOR << "Menu: \n"
+              << NO_COLOR;
     std::cout << LIST_COLOR_NUMBERS << "1. " << NO_COLOR << "Show Sensor Data \n";
     std::cout << LIST_COLOR_NUMBERS << "2. " << NO_COLOR << "Create City \n";
     std::cout << LIST_COLOR_NUMBERS << "3. " << NO_COLOR << "Modify City \n";
@@ -55,7 +55,7 @@ void showSensorData(Cities &cities)
     sensorManager.generate(1);
 
     DataStatistics statistics;
-    
+
     std::atomic_bool isRunning = true;
     std::condition_variable signalDone;
 
@@ -63,28 +63,31 @@ void showSensorData(Cities &cities)
 
     auto &dataMap = dataCollector->getSensorData();
 
-    std::thread t1 {[&]() {                
-        while (isRunning)
-        {
-            std::unique_lock<std::mutex> lock(mtx1);
-            for (const auto &[sensorId, sensorQueue] : dataMap)
-            {
-                std::cout << TITLE_COLOR << "\nSensor ID: " << NO_COLOR << sensorId << "\n";
-                statistics.print(sensorQueue.back());                
-            }                
-            signalDone.wait_for(lock, std::chrono::seconds(2));
-        }
-    }};
+    std::thread t1{[&]()
+                   {
+                       while (isRunning)
+                       {
+                           std::unique_lock<std::mutex> lock(mtx1);
+                           for (const auto &[sensorId, sensorQueue] : dataMap)
+                           {
+                               std::cout << TITLE_COLOR << "\nSensor ID: " << NO_COLOR << sensorId << "\n";
+                               statistics.print(sensorQueue.back());
+                           }
+                           signalDone.wait_for(lock, std::chrono::seconds(2));
+                       }
+                   }};
 
-    std::thread t2 {[&]() {
-        std::unique_lock<std::mutex> lock(mtx2);
-        while (isRunning)
-        {
-            signalDone.wait_for(lock, std::chrono::seconds(5));
-            statistics.calculateAll(dataCollector->getSensorData(choice));
-            statistics.displayStatistics();
-        }
-    }};
+    std::thread t2{[&]()
+                   {
+                       std::unique_lock<std::mutex> lock(mtx2);
+                       while (isRunning)
+                       {
+                           signalDone.wait_for(lock, std::chrono::seconds(5));
+                           statistics.calculateAll(dataCollector->getSensorData(choice));
+                           // statistics.displayStatistics();
+                       }
+                       statistics.displayStatistics();
+                   }};
 
     std::cout << "Press Enter to stop displaying data...\n";
     std::cin.clear();
@@ -95,9 +98,11 @@ void showSensorData(Cities &cities)
     isRunning = false;
 
     sensorManager.stopReading();
-    
-    if (t1.joinable()) t1.join();
-    if (t2.joinable()) t2.join();   
+
+    if (t1.joinable())
+        t1.join();
+    if (t2.joinable())
+        t2.join();
 }
 
 // Adds a city with avg readings
@@ -107,7 +112,7 @@ void createCity(Cities &cities)
     double avgTemperature, avgHumidity, avgWind;
 
     std::cout << "Enter the name of the city: ";
-    std::cin.ignore(); 
+    std::cin.ignore();
     std::getline(std::cin, name);
 
     std::cout << "Enter the average temperature for " << name << " (°C): ";
@@ -132,7 +137,7 @@ void createCity(Cities &cities)
     }
 
     auto sensorManager = std::make_shared<SensorManager>();
-    sensorManager->generate(1); 
+    sensorManager->generate(1);
 
     SensorData sensorData(avgWind, avgTemperature, avgHumidity, std::time(nullptr));
     sensorManager->getDataCollector()->addData(1, sensorData);
@@ -206,7 +211,7 @@ void modifyCity(Cities &cities)
     std::cout << "New average wind speed: " << newAvgWind << " m/s\n";
 }
 
-//Function to remove city from program 
+// Function to remove city from program
 void removeCity(Cities &cities)
 {
     if (cities.empty())
