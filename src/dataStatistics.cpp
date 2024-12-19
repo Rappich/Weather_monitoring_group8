@@ -5,7 +5,7 @@
 
 DataStatistics::DataStatistics() {}
 
-// Beräkna alla statistikvärden
+// Summarizes sensor data from the parameter
 void DataStatistics::calculateAll(const std::queue<SensorData> *data)
 {
     if (data->empty())
@@ -66,22 +66,34 @@ void DataStatistics::calculateAll(const std::queue<SensorData> *data)
     humidity.avg /= (double) count;
 }
 
+/**
+ * @returns Returns the windspeed
+  */
+
 const MeasurementData DataStatistics::getWindspeed() const noexcept
 {
     return windspeed;
 }
+
+/**
+ * @returns Returns the temperature
+  */
 const MeasurementData DataStatistics::getTemperature() const noexcept
 {
     return temperature;
 }
+
+/**
+ * @returns Returns the humidity
+  */
 const MeasurementData DataStatistics::getHumidity() const noexcept
 {
     return humidity;
 }
 
+ // Prints the avarage temperature, humidity and windspeed from simulated real-time data
 void DataStatistics::displayStatistics()
 {
-    // Print the statistics using DataStatistics
     std::cout <<"\033[1;31mDisplaying statistics:\033[0m" << std::endl;
     std::cout <<"Average temperature: " << temperature.avg << std::endl;
     std::cout <<"Lowest measured tempreature: " << temperature.min <<std::endl; 
@@ -96,6 +108,8 @@ void DataStatistics::displayStatistics()
     std::cout <<"Highest windspeed: " << windspeed.max <<std::endl; 
 }
 
+
+// Prints the simulated real time data
 void DataStatistics::print(const SensorData &data)
 {
     std::cout << "Temperature: " << data.temperature << std::endl;

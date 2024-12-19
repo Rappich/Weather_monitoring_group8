@@ -72,7 +72,7 @@ void SensorManager::generate(unsigned int numSensors)
         for (unsigned int i = 0; i < numSensors; i++)
         {
             sensors.insert({i + 1, Sensor(i)});
-        } //lämnar scope
+        }
     }
     std::cout << numSensors << " sensors initialized.\n";
 }
@@ -91,6 +91,8 @@ void SensorManager::setSensor(unsigned int id, Sensor &sensor)
     std::cout << "Sensor with ID " << id << " has been updated.\n";
 }
 
+
+//Instructs sensor thread to stop reading
 void SensorManager::stopReading()
 {
     std::lock_guard<std::mutex> lock_guard(this->m_mtx);

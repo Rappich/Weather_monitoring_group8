@@ -7,7 +7,7 @@ DataCollector::DataCollector()
 
 }
 
-/** If true the class values will be emptied later. */
+/** Makes sure the code is ready to run if you call the method getSensorData */
 void DataCollector::setDataReady(bool ready) {
     std::lock_guard<std::mutex> lock(m_mtx);
     this->m_dataReady = ready;

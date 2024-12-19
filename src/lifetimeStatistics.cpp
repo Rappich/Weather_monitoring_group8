@@ -5,7 +5,7 @@
 
 // }
 
-
+//not currently in use, will be used once database is implemented.
 // void LifetimeStatistics::calculateAll(const std::queue<SensorData> *data)
 // {
 //     if (data->empty())
