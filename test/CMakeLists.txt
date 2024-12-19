@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 3.30 ) # Minimum required version of cmake for the project to build
+cmake_minimum_required( VERSION 3.28 ) # Minimum required version of cmake for the project to build
 
 project (
 	weather_monitoring_test

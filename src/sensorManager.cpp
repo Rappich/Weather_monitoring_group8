@@ -91,7 +91,6 @@ void SensorManager::setSensor(unsigned int id, Sensor &sensor)
     std::cout << "Sensor with ID " << id << " has been updated.\n";
 }
 
-
 //Instructs sensor thread to stop reading
 void SensorManager::stopReading()
 {
