@@ -64,7 +64,6 @@ void showSensorData(Cities &cities)
 
     DataStatistics statistics;
 
-
     std::atomic_bool isRunning = true;
     std::condition_variable signalDone;
 
@@ -72,19 +71,6 @@ void showSensorData(Cities &cities)
 
     auto &dataMap = dataCollector->getSensorData();
 
-    std::thread t1{[&]()
-                   {
-                       while (isRunning)
-                       {
-                           std::unique_lock<std::mutex> lock(mtx1);
-                           for (const auto &[sensorId, sensorQueue] : dataMap)
-                           {
-                               std::cout << TITLE_COLOR << "\nSensor ID: " << NO_COLOR << sensorId << "\n";
-                               statistics.print(sensorQueue.back());
-                           }
-                           signalDone.wait_for(lock, std::chrono::seconds(2));
-                       }
-                   }};
     std::thread t1{[&]()
                    {
                        while (isRunning)
