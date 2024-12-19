@@ -22,7 +22,6 @@ public:
     const std::queue<SensorData> *getSensorData(unsigned int sensorId) noexcept;
     const std::map<unsigned int, std::queue<SensorData>> &getSensorData() noexcept;
     
-    std::shared_ptr<SensorData> queryData(unsigned int sensorId);
 private:
     std::map<unsigned int, std::queue<SensorData>> m_sensorData {};
 

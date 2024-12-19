@@ -16,6 +16,8 @@ void displayMenu()
 {
     std::cout << TITLE_COLOR << "Menu: \n"
               << NO_COLOR;
+    std::cout << TITLE_COLOR << "Menu: \n"
+              << NO_COLOR;
     std::cout << LIST_COLOR_NUMBERS << "1. " << NO_COLOR << "Show Sensor Data \n";
     std::cout << LIST_COLOR_NUMBERS << "2. " << NO_COLOR << "Create City \n";
     std::cout << LIST_COLOR_NUMBERS << "3. " << NO_COLOR << "Modify City \n";
@@ -51,10 +53,17 @@ void showSensorData(Cities &cities)
     SensorManager &sensorManager = *cities[choice - 1].second;
     DataCollector *dataCollector = sensorManager.getDataCollector();
 
+    if (dataCollector == nullptr)
+    {
+        std::cerr << "Data collector is null.\n";
+        return;
+    }
+
     std::cout << "Displaying real-time sensor data for " << cities[choice - 1].first << ":\n";
     sensorManager.generate(1);
 
     DataStatistics statistics;
+
 
     std::atomic_bool isRunning = true;
     std::condition_variable signalDone;
@@ -63,6 +72,19 @@ void showSensorData(Cities &cities)
 
     auto &dataMap = dataCollector->getSensorData();
 
+    std::thread t1{[&]()
+                   {
+                       while (isRunning)
+                       {
+                           std::unique_lock<std::mutex> lock(mtx1);
+                           for (const auto &[sensorId, sensorQueue] : dataMap)
+                           {
+                               std::cout << TITLE_COLOR << "\nSensor ID: " << NO_COLOR << sensorId << "\n";
+                               statistics.print(sensorQueue.back());
+                           }
+                           signalDone.wait_for(lock, std::chrono::seconds(2));
+                       }
+                   }};
     std::thread t1{[&]()
                    {
                        while (isRunning)
@@ -102,6 +124,11 @@ void showSensorData(Cities &cities)
         t1.join();
     if (t2.joinable())
         t2.join();
+
+    if (t1.joinable())
+        t1.join();
+    if (t2.joinable())
+        t2.join();
 }
 
 // Adds a city with avg readings
@@ -111,6 +138,7 @@ void createCity(Cities &cities)
     double avgTemperature, avgHumidity, avgWind;
 
     std::cout << "Enter the name of the city: ";
+    std::cin.ignore();
     std::cin.ignore();
     std::getline(std::cin, name);
 
@@ -210,6 +238,7 @@ void modifyCity(Cities &cities)
     std::cout << "New average wind speed: " << newAvgWind << " m/s\n";
 }
 
+// Function to remove city from program
 // Function to remove city from program
 void removeCity(Cities &cities)
 {
