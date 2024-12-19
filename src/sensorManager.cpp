@@ -45,8 +45,7 @@ SensorManager::SensorManager(double avgTemp, double avgHumidity, double avgWinds
 
                 for (auto& pair : sensors)
                 {
-                    pair.second.readData();
-                    this->m_dataCollector.addData(pair.first, pair.second.getData());
+                    this->m_dataCollector.addData(pair.first, pair.second.generateData(this->avgTemp, this->avgHumidity, this->avgWindspeed));
                 }
 
                 this->getDataCollector()->setDataReady(true);

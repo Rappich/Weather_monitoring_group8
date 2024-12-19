@@ -51,6 +51,12 @@ void showSensorData(Cities &cities)
     SensorManager &sensorManager = *cities[choice - 1].second;
     DataCollector *dataCollector = sensorManager.getDataCollector();
 
+    if (dataCollector == nullptr)
+    {
+        std::cerr << "Data collector is null.\n";
+        return;
+    }
+
     std::cout << "Displaying real-time sensor data for " << cities[choice - 1].first << ":\n";
     sensorManager.generate(1);
 
@@ -78,10 +84,12 @@ void showSensorData(Cities &cities)
 
     std::thread t2 {[&]() {
         std::unique_lock<std::mutex> lock(mtx2);
-        while (isRunning)
+
+        signalDone.wait(lock);
+        for (auto &[sensorId, sensorQueue] : dataMap)
         {
-            signalDone.wait_for(lock, std::chrono::seconds(5));
-            statistics.calculateAll(dataCollector->getSensorData(choice));
+            statistics.calculateAll(&sensorQueue);
+            std::cout << TITLE_COLOR << "\nSummary for sensor with ID: " << NO_COLOR << sensorId << "\n";
             statistics.displayStatistics();
         }
     }};
@@ -131,7 +139,7 @@ void createCity(Cities &cities)
         return;
     }
 
-    auto sensorManager = std::make_shared<SensorManager>();
+    auto sensorManager = std::make_shared<SensorManager>(avgTemperature, avgHumidity, avgWind);
     sensorManager->generate(1); 
 
     SensorData sensorData(avgWind, avgTemperature, avgHumidity, std::time(nullptr));

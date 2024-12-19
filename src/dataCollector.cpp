@@ -19,6 +19,7 @@ void DataCollector::setDataReady(bool ready) {
 /** Inserts sensor data into a sensor using the sensors id. */
 void DataCollector::addData(unsigned int sensorId, SensorData data)
 {
+    std::unique_lock<std::mutex> lock(m_mtx);
     if (!this->m_sensorData.contains(sensorId))
     {
         this->m_sensorData[sensorId] = {};

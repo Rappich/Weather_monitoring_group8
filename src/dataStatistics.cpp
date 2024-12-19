@@ -8,6 +8,12 @@ DataStatistics::DataStatistics() {}
 // Summarizes sensor data from the parameter
 void DataStatistics::calculateAll(const std::queue<SensorData> *data)
 {
+    if (data == nullptr) 
+    {
+        std::cerr << "Data is null" << std::endl;
+        return;
+    }
+
     if (data->empty())
     {
         return;
