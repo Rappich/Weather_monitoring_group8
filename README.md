@@ -65,8 +65,6 @@ This project showcases a weather monitoring system simulating sensor data in rea
 
 ![Weather Monitoring Diagram](assets/weather_diagram.png)
 
-![Test](https://github.com/user-attachments/assets/5c81a912-ae7e-4d11-a88d-5e4d035a205c)
-/image)
 
 ---
 
