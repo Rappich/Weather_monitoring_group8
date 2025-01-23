@@ -64,6 +64,7 @@ The system operates in a real-time environment, generating simulated sensor data
 This project showcases a weather monitoring system simulating sensor data in real-time. Below is a graphical representation of the sensor system:
 
 ![Weather Monitoring Diagram](assets/weather_diagram.png)
+[Alternative sources] (https://www.smhi.se/vader/prognoser/ortsprognoser/q/3149346)
 
 
 ---
